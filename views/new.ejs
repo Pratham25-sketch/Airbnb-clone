@@ -1,0 +1,84 @@
+<% layout("/layouts/boilerplate.ejs")%>
+<body>
+       <h1 style="text-align: center;">Create a new listing</h1>
+
+<form action="/listings" method="post" class="needs-validation" novalidate>
+
+  <div class="create-form mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input type="text" class="form-control" id="title" placeholder="Add a catchy title" name="title" required>
+
+    <DIV class="invalid-feedback">Please provide a valid title !!</DIV>
+    <DIV class="valid-feedback">Title looks good !!</DIV>
+  </div>
+
+  <div class="create-form mb-3">
+     <label for="description" class="form-label">Description</label> <br>
+     <textarea name="description" class="form-control" id="description" placeholder="Add description" required style="height: 100px;"></textarea>
+
+     <DIV class="invalid-feedback">Please provide a valid description !!</DIV>
+     <DIV class="valid-feedback">Description looks good !!</DIV>
+  </div>
+
+  <div class="create-form mb-3">
+    <label for="image" class="form-label">Image Link</label> <br>
+    <input type="text" class="form-control" id="image" placeholder="Add the image url" name="image">
+
+    <DIV class="invalid-feedback">Please provide a valid image url !!</DIV>
+
+  </div>
+
+  <div style="display: flex;">
+
+   <div class="create-form mb-3" style="width: 15rem;">
+    <label for="price" class="form-label">Price</label> 
+    <input type="number" class="form-control" id="price" placeholder="Add the price" name="price" required>
+
+    <DIV class="invalid-feedback">Please provide a valid price !!</DIV>
+    <DIV class="valid-feedback">Price looks good !!</DIV>
+  </div> &nbsp;&nbsp;
+<div class="create-form mb-3" style="margin: 0.2rem;width: 20rem;">
+    <label for="rating" class="form-label form-label">Rating</label> 
+    <input type="number" min="0" max="5" step="0.1" class="form-control" id="rating" placeholder="Give the rating for this place" name="rating" required>
+
+    <DIV class="invalid-feedback">Please provide a valid rating !!</DIV>
+    <DIV class="valid-feedback">Rating looks good !!</DIV>
+  </div>
+  </div>
+  <div class="create-form mb-3">
+    <label for="country" class="form-label form-label">Country</label> 
+    <input type="text" class="form-control" id="country" placeholder="Add the country name" name="country" required>
+
+    <DIV class="invalid-feedback">Please provide a valid country name !!</DIV>
+    <DIV class="valid-feedback">Country name looks good !!</DIV>
+  </div>
+  
+  <div class="create-form mb-3">
+    <label for="location" class="form-label">Location</label> <br>
+    <input type="text" class="form-control" id="location" placeholder="Add the location" name="location" required>
+
+    <DIV class="invalid-feedback">Please provide a valid location !!</DIV>
+    <DIV class="valid-feedback">Location looks good !!</DIV>
+  </div> <br>
+  <button type="Add" class="create-form btn btn-danger" style="width: 5rem;">Add</button> <br><br><br>
+</form>
+
+
+
+
+
+       <!-- <h1 style="text-align: center;">Create a new listing</h1>
+
+<form action="/listings" method="post"> 
+<input type="text" placeholder="Write the title" name="title"> <br><br>
+<textarea name="description" placeholder="Add description" style="width: 250px; height: 50px;"></textarea> <br><br>
+<input type="text" placeholder="Add the image url" name="image"><br><br>
+<input type="number" placeholder="Write the price" name="price"><br><br>
+<input type="text" placeholder="Write the location" name="location"><br><br>
+<input type="text" placeholder="Write the country" name="country"><br><br>
+
+<button>Add your listing</button>
+
+</form> -->
+
+</body>

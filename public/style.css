@@ -1,0 +1,66 @@
+body{
+    background-color: aqua;
+}
+
+.left-footer-link{
+    text-decoration: none;
+    color: #222222;
+}
+
+.left-footer-link:hover{
+    text-decoration: underline;
+     color: #222222;
+     
+}
+
+.right-footer-link{
+    text-decoration: none;
+    color: #222222;
+    font-weight: 500;
+}
+
+
+.right-footer-icon i{
+    text-decoration: none;
+    color: #222222;
+   
+  border: 9px solid white;
+  border-radius: 50%;
+ 
+  position: relative;
+  bottom: 5px;
+  
+}
+
+.right-footer-icon i:hover {
+  border-color: whitesmoke;
+  background-color: whitesmoke;
+  
+}
+
+.card-info{
+text-decoration: none;
+color: #222222;
+}
+
+.card-info:hover{
+  
+  opacity: 0.8;
+  transition: 0.3s ease;
+}
+
+#heart:hover{  
+  transition: 0.1s;
+  font-size: 2.1rem !important;
+ color:  red !important;
+}
+
+.create-form{
+  width: 50rem;
+  margin-left: 20%;
+}
+
+.card-text{
+  font-size: larger;
+}
+

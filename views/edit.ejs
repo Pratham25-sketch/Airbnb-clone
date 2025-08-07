@@ -1,0 +1,65 @@
+<% layout("/layouts/boilerplate.ejs")%>
+<body>
+    <h1 style="text-align: center;">Edit your listing</h1>
+
+<form method="post" action="/listings/<%=listing._id%>?_method=PATCH" class="needs-validation" novalidate > 
+
+    <div class="create-form mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input type="text" class="form-control" id="title" value="<%=listing.title%>" name="title" required>
+
+    <DIV class="invalid-feedback">Please provide a valid title !!</DIV>
+    <DIV class="valid-feedback">Title looks good !!</DIV>
+  </div>
+  <div class="create-form mb-3">
+     <label for="description" class="form-label">Description</label> <br>
+     <textarea name="description" class="form-control" id="description" required style="height: 100px;"><%=listing.description%></textarea>
+
+    <DIV class="invalid-feedback">Please provide a valid description !!</DIV>
+    <DIV class="valid-feedback">Description looks good !!</DIV>
+  </div>
+  <div class="create-form mb-3">
+    <label for="image" class="form-label">Image Link</label> <br>
+    <input type="text" class="form-control" id="image" value="<%=listing.image%>" name="image">
+
+    
+    <DIV class="invalid-feedback">Please provide a valid image url !!</DIV>
+  </div>
+
+  <div style="display: flex;">
+
+   <div class="create-form mb-3" style="width: 15rem;">
+    <label for="price" class="form-label">Price</label> 
+    <input type="number" class="form-control" id="price" value="<%=listing.price%>" name="price" required>
+  
+        <DIV class="invalid-feedback">Please provide a valid price !!</DIV>
+    <DIV class="valid-feedback">Price looks good !!</DIV>
+  </div> &nbsp;&nbsp;
+<div class="create-form mb-3" style="margin: 0.2rem;width: 20rem;">
+    <label for="rating" class="form-label form-label">Rating</label> 
+    <input type="number" min="0" max="5" step="0.1" class="form-control" id="rating" value="<%=listing.rating%>" name="rating" required>
+
+        <DIV class="invalid-feedback">Please provide a valid rating !!</DIV>
+    <DIV class="valid-feedback">Rating looks good !!</DIV>
+  </div>
+  </div>
+  <div class="create-form mb-3">
+    <label for="country" class="form-label">Country</label> 
+    <input type="text" class="form-control" id="country" value="<%=listing.country%>" name="country" required>
+
+        <DIV class="invalid-feedback">Please provide a valid country name !!</DIV>
+    <DIV class="valid-feedback">Country name looks good !!</DIV>
+  </div>
+  
+  <div class="create-form mb-3">
+    <label for="location" class="form-label">Location</label> <br>
+    <input type="text" class="form-control" id="location" value="<%=listing.location%>" name="location" required>
+
+    <DIV class="invalid-feedback">Please provide a location !!</DIV>
+    <DIV class="valid-feedback">Location looks good !!</DIV>
+  </div> <br>
+  <button type="Add" class="create-form btn btn-danger" style="width: 5rem;">Edit</button> <br><br><br>
+
+</form>
+
+</body>
