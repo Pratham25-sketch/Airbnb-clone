@@ -143,6 +143,11 @@ const Listing=require("./models/listings.js");
 const Review=require("./models/reviews.js");
 /*const User=require("./models/user.js");   this is already declared*/
 
+//HOMEPAGE
+app.get("/homepage",wrapAsync(async(req,res)=>{
+  res.render("homepage.ejs");
+}));
+
 //SIGNUP NEW USER
 app.get("/signup",wrapAsync(async (req,res)=>{
   res.render("signup/signup.ejs");
