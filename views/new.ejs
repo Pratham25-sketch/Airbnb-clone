@@ -1,8 +1,9 @@
 <% layout("/layouts/boilerplate.ejs")%>
 <body>
+
        <h1 style="text-align: center;">Create a new listing</h1>
 
-<form action="/listings" method="post" class="needs-validation" novalidate>
+<form action="/listings" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
 
   <div class="create-form mb-3">
     <label for="title" class="form-label">Title</label>
@@ -21,14 +22,10 @@
   </div>
 
   <div class="create-form mb-3">
-    <label for="image" class="form-label">Image Link</label> <br>
-    <input type="text" class="form-control" id="image" placeholder="Add the image url" name="image">
-
-    <DIV class="invalid-feedback">Please provide a valid image url !!</DIV>
-
+    <label for="image" class="form-label">Upload Image</label> <br>
+    <input type="file" class="form-control" id="image" placeholder="Add the image url" name="image">
   </div>
 
-  <div style="display: flex;">
 
    <div class="create-form mb-3" style="width: 15rem;">
     <label for="price" class="form-label">Price</label> 
@@ -36,15 +33,8 @@
 
     <DIV class="invalid-feedback">Please provide a valid price !!</DIV>
     <DIV class="valid-feedback">Price looks good !!</DIV>
-  </div> &nbsp;&nbsp;
-<div class="create-form mb-3" style="margin: 0.2rem;width: 20rem;">
-    <label for="rating" class="form-label form-label">Rating</label> 
-    <input type="number" min="0" max="5" step="0.1" class="form-control" id="rating" placeholder="Give the rating for this place" name="rating" required>
+  </div>
 
-    <DIV class="invalid-feedback">Please provide a valid rating !!</DIV>
-    <DIV class="valid-feedback">Rating looks good !!</DIV>
-  </div>
-  </div>
   <div class="create-form mb-3">
     <label for="country" class="form-label form-label">Country</label> 
     <input type="text" class="form-control" id="country" placeholder="Add the country name" name="country" required>
@@ -60,6 +50,34 @@
     <DIV class="invalid-feedback">Please provide a valid location !!</DIV>
     <DIV class="valid-feedback">Location looks good !!</DIV>
   </div> <br>
+
+
+  <div class="mb-3" style="position: relative; left: 16rem; max-width: 60rem;">
+  <h5>Select Filters</h5>
+  <div class="row">
+    <% const allFilters = ["Trending","Rooms","Iconic Cities","Mountains","Castles","Swimming Pools","Camping","Farms","Arctic"]; %>
+    <% allFilters.forEach(f => { %>
+      <div class="col-3"> <!-- 12/3 = 4 per row -->
+        <div class="form-check">
+          <input style="margin-top: 1rem;"
+            class="form-check-input" 
+            type="checkbox" 
+            name="listing[filters]" 
+            value="<%= f %>" 
+            id="<%= f %>">
+          <label class="form-check-label" style="margin-top: 0.7rem;" for="<%= f %>">
+            <%= f %>
+          </label>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+
+
+
+  
   <button type="Add" class="create-form btn btn-danger" style="width: 5rem;">Add</button> <br><br><br>
 </form>
 

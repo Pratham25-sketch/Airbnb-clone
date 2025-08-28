@@ -1,21 +1,123 @@
 <% layout("/layouts/boilerplate.ejs") %>
 <body>
-      <h1 style="text-align: center;">All Listings</h1>
+      
+  <style>
+    .trending:hover{
+      opacity:0.7 ;
+      scale: 1.05;
+    }
+  </style>
+
+ <div class="filters" 
+     style="width: 100vw;
+            position: relative;
+            right: 8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            background-color: azure;
+            justify-content: space-around; 
+            padding: 0.5rem 0.75rem;
+            z-index: 10;">
+  
+  <a href="/listings?filter=Trending" style="text-decoration: none; color: grey; font-size: large; text-align: center;margin-left: 1rem;padding-left: 3rem;">
+    <div class="trending">
+      <i class="fa-solid fa-fire"></i>
+      <p>Trending</p>
+    </div>
+  </a>
+
+  <a href="/listings?filter=Rooms" style="text-decoration: none; color: grey; font-size: large; text-align: center;padding-left: 3rem;">
+    <div class="trending">
+      <i class="fa-solid fa-bed"></i>
+      <p>Rooms</p>
+    </div>
+  </a>
+
+  <a href="/listings?filter=Iconic Cities" style="text-decoration: none; color: grey; font-size: large; text-align: center;padding-left: 3rem;">
+    <div class="trending">
+      <i class="fa-solid fa-city"></i>
+      <p>Iconic Cities</p>
+    </div>
+  </a>
+
+  <a href="/listings?filter=Mountains" style="text-decoration: none; color: grey; font-size: large; text-align: center;padding-left: 3rem;">
+    <div class="trending">
+      <i class="fa-solid fa-mountain"></i>
+      <p>Mountains</p>
+    </div>
+  </a>
+
+  <a href="/listings?filter=Castles" style="text-decoration: none; color: grey; font-size: large; text-align: center;padding-left: 3rem;">
+    <div class="trending">
+      <i class="fa-solid fa-chess-rook"></i>
+      <p>Castles</p>
+    </div>
+  </a>
+
+  <a href="/listings?filter=Swimming Pools" style="text-decoration: none; color: grey; font-size: large; text-align: center;padding-left: 3rem;">
+    <div class="trending">
+      <i class="fa-solid fa-person-swimming"></i>
+      <p>Swimming Pools</p>
+    </div>
+  </a>
+
+  <a href="/listings?filter=Camping" style="text-decoration: none; color: grey; font-size: large; text-align: center;padding-left: 3rem;">
+    <div class="trending">
+      <i class="fa-solid fa-campground"></i>
+      <p>Camping</p>
+    </div>
+  </a>
+
+  <a href="/listings?filter=Farms" style="text-decoration: none; color: grey; font-size: large; text-align: center;padding-left: 3rem;">
+    <div class="trending">
+      <i class="fa-solid fa-cow"></i>
+      <p>Farms</p>
+    </div>
+  </a>
+
+  <a href="/listings?filter=Arctic" style="text-decoration: none; color: grey; font-size: large; text-align: center;padding-left: 3rem;">
+    <div class="trending">
+      <i class="fa-solid fa-snowflake"></i>
+      <p>Arctic</p>
+    </div>
+  </a>
+
+
+  <!--KISI BHI FILTER PR CLICK KRNE PR RESPECTIVE LISTING PR POHOCH JAENGE-->
+   <% const allFilters = ["Trending","Rooms","Iconic Cities","Mountains","Castles","Swimming Pools","Camping","Farms","Arctic"]; %>
+  
+  <% allFilters.forEach(f => { %>
+    <a href="/listings?filter=<%= f %>" 
+       style="text-decoration: none; 
+              color: <%= filter === f ? 'red' : 'grey' %>; 
+              font-size: large; 
+              text-align: center;">
+    </a>
+  <% }) %>
+
+  <!--ADDING A EVENT LISTENER FOR THIS BUTTON(AT BOTTOM OF THIS PAGE)-->
+  <div class="form-check form-switch" style="margin-top: 0.5rem;position: relative;right: 1.3rem;font-weight:600;border: 3px solid gainsboro;border-radius:1.5rem;width: 15rem;padding-left: 3rem;padding-top: 0.9rem;">
+  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+  <label class="form-check-label" for="flexSwitchCheckChecked" style="opacity: 0.6;">Display total after taxes</label>
+</div>
+</div>
+
       
     <ol>
-       <% for(let list of listings){ %>
+       <% for(let list of listings){ %>  
+
 
         <div class="card-body" style="display: inline-block;margin: 0.25rem;">
        <a class="card-info" href="/listings/<%=list._id%>"> <div class="card" style="border: none;">
    
 
-  <img src="<%= list.image%>" class="card-img" alt="..." style="width: 14rem;height: 12rem;border-radius: 1.25rem;">
+  <img src="<%= list.image.url%>" class="card-img" alt="..." style="width: 17rem;height: 12rem;border-radius: 1.25rem;">
     <div class="card-img-overlay">
-    <i class="fa-regular fa-heart" id="heart" style="color: white;font-size: 2rem;background-color:rgba(0, 0, 0, 0.4);border-radius: 50%;padding: 0.3rem;font-weight: bold;position: relative;left: 10rem;"></i>
+    
   </div>
   <div class="card-body">
     <h5 class="card-title" style="font-size:0.80rem;margin: 0rem auto;margin-left: -1rem;margin-top: -1rem;"><%=list.title%></h5>
-    <p class="card-text" style="opacity: 0.8;font-size: 0.79rem;margin: 0rem;margin-left: -1rem;"><%= list.price ? list.price.toLocaleString("en-IN") : "N/A" %> for 2 nights &middot; &#9733; <%= list.reviews.length ? (list.reviews.reduce((sum, r) => sum + r.rating, 0) / list.reviews.length).toFixed(1) : "No rating yet" %></p>
+    <p class="card-text" style="opacity: 0.8;font-size: 0.79rem;margin: 0rem;margin-left: -1rem;"><%= list.price ? list.price.toLocaleString("en-IN") : "N/A" %> <i class="gst" style="display: none;">+18% GST </i>for 2 nights &nbsp; &#9733; <%= list.reviews.length ? (list.reviews.reduce((sum, r) => sum + r.rating, 0) / list.reviews.length).toFixed(1) : "No rating yet" %></p>
 </a>
   </div>
 </div>
@@ -23,4 +125,28 @@
           
       <% } %>
     </ol>
+
+    <!--EVENT LISTENER FOR TAX BUTTON-->
+    <script>
+      let tax=document.getElementById("flexSwitchCheckChecked");
+      tax.addEventListener("click",()=>{
+          
+
+         
+            let gst=document.querySelectorAll(".gst");
+
+            for(let g of gst){
+          
+          if(g.style.display === "" || g.style.display==="none"){
+          g.style.display="inline";   
+          }
+
+          
+         else if(g.style.display==="inline"){
+          g.style.display="none";
+          }
+        
+          }
+      })
+    </script>
 </body>

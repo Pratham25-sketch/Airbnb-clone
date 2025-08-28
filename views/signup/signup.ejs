@@ -1,0 +1,34 @@
+<% layout("/layouts/boilerplate.ejs")%>
+
+<body>
+
+       <h1 style="text-align: center;">Signup on Wanderlust</h1>
+
+<form action="/signup" method="post" class="needs-validation" novalidate style="height: 33rem;">
+
+  <div class="create-form mb-5">
+    <label for="username" class="form-label">Username</label>
+    <input type="text" class="form-control" id="username" name="username" required>
+
+    <DIV class="invalid-feedback">Please provide a valid username !!</DIV>
+    <DIV class="valid-feedback">Username looks good !!</DIV>
+  </div>
+
+  <div class="create-form mb-5">
+    <label for="email" class="form-label">Email</label>
+    <input type="text" class="form-control" id="email" name="email" required>
+
+    <DIV class="invalid-feedback">Please provide a valid email !!</DIV>
+    <DIV class="valid-feedback">Email looks good !!</DIV>
+  </div>
+
+  <div class="create-form mb-5">
+    <label for="password" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password" name="password" required>
+
+    <DIV class="invalid-feedback">Please provide a strong password !!</DIV>
+  </div>
+
+   <button type="submit" class="create-form btn btn-success" style="width: 5rem;">Signup</button> <br><br><br>
+
+</form>

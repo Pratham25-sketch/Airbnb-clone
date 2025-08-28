@@ -3,10 +3,13 @@
     <h1 style="text-align: center;">Listing Details</h1> <br>
 
     <div class="card" style="width: 33rem;border: none;margin-left: 29%;">
-    <b><h5 class="card-title" style="font-size: xx-large;"><%=listing.title%></h5></b>
-  <img class="card-img-top" src="<%=listing.image%>" alt="Card image cap" style="height: 25rem;width: 33rem;border: none; border-radius: 2rem;">
+    <b><h5 class="card-title" style="font-size: xx-large;"><%=listing.title%></h5></b> <br>
+
+
+  <img class="card-img-top" src="<%=listing.image.url%>" alt="Card image cap" style="height: 25rem;width: 33rem;border: none; border-radius: 2rem;">
   <div class="card-body">  
    <ul style="margin-left: -1rem;">
+     <h6 id="owner" class="card-title" style="font-size: 1.25rem;">Posted by:<%= listing.owner?.[0]?.username || "delta-student" %><br><p style="margin-top: 0.5rem;">Email:<%= listing.owner?.[0]?.email || "delta@gmail.com" %></p></h5> <br>
    <li> <p class="card-text" style="padding-bottom: 0.5rem;">Description: <%=listing.description%></p></li>
     <li><p class="card-text" style="margin-top: 1rem;">Price: ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : " N/A" %></p></li>
     <li><p class="card-text" style="margin-top: 1rem;">Location: <%=listing.location%></p></li>
@@ -14,8 +17,11 @@
    </ul>
   </div>
 
-  <br>
 
+  <br>
+ 
+   
+<% if(workingUser && String(workingUser._id)===String(listing.owner?.[0]?._id || "1234" )){ %>
   <div style="display: flex;justify-content: space-evenly;font-family:Verdana, Geneva, Tahoma, sans-serif;">
         <form method="get" action="/listings/<%=listing._id%>/edit">
             <a href="/listings/<%=listing._id%>/edit" class="btn btn-dark">Edit</a>
@@ -26,20 +32,141 @@
          <a href="/listings" style="text-decoration: none;color: #222222;margin-top: 0.4rem;"><i class="fa-sharp fa-solid fa-arrow-left"></i> Go back to listings page</a>
 
    </div>
-
+<% } %>
 
 </div>
 
-  <!-- Review Section using bootstrap for form-label and form-control -->
-<div class="card mt-5" style="width: 50rem; margin: 3rem auto; padding: 1.5rem; border-radius: 1rem; background-color: #f9f9f9;">
-    <h3 style="text-align: center; margin-bottom: 1rem;">Leave a Review!!</h3>
-    <form method="POST" action="/listings/<%= listing._id %>/reviews" novalidate class="needs-validation">
-    <!-- Rating Input using bootstrap for naming classes as form-label and form-range -->
-        <div class="form-group mb-3">
-            <label class="form-label" for="rating" class="form-label">Rating: <span id="ratingValue">3</span>/5</label>
-            <input type="range" id="rating" name="rating" min="1" max="5" value="3" class="form-range" 
-                   oninput="document.getElementById('ratingValue').innerText = this.value"> 
+<h3 style="text-align: start; margin-bottom: 1rem;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  View Location on Map!!</h3>
+
+
+
+<!--MAP AT THE BOTTOM-->
+<div id="map"></div>
+<script>
+	// TO MAKE THE MAP APPEAR YOU MUST
+	// ADD YOUR ACCESS TOKEN FROM
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZGFyay1zaW5naC02MiIsImEiOiJjbWVtdHdtZngwdTZvMmtzZWVldXp2ZDJzIn0.GE1tY76XQICRi1c97WsOPQ';
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        center: [77.20889, 28.61389], // starting position [lng, lat]. Note that lat must be set between -90 and 90
+        zoom: 10 // starting zoom
+    });
+   
+// Create a custom DOM element for the marker(in style.css we can modify this marks with class ".custom-marker")
+const el = document.createElement("div");
+el.className = "custom-marker";
+el.style.backgroundImage = "url('https://cdn-icons-png.flaticon.com/512/5977/5977574.png')"; // your icon URL
+el.style.width = "30px";   // adjust size
+el.style.height = "30px";
+el.style.backgroundSize = "29px";
+
+// Create a wrapper div for marker + circle
+const wrapper = document.createElement("div");
+wrapper.className = "marker-wrapper";
+
+// Append marker inside wrapper (so pulse is behind it)
+wrapper.appendChild(el);
+
+// Add the custom marker with popup
+new mapboxgl.Marker(wrapper)
+  .setLngLat(<%- JSON.stringify(listing.geometry.coordinates) %>)  
+  .setPopup(
+    new mapboxgl.Popup({ offset: 25 })
+      .setMaxWidth("500px")
+      .setHTML(`
+        <div>
+          <h3><%= listing.location %></h3>
+          <p>Exact location provided after booking !!</p>
         </div>
+      `)
+  )
+  .addTo(map);
+
+// Center map on the listing
+map.setCenter(<%- JSON.stringify(listing.geometry.coordinates) %>);
+
+
+  
+</script>
+ 
+
+  <!-- Review Section using bootstrap for form-label and form-control -->
+
+<div class="card mt-5" style="width: 55rem; margin: 3rem auto; padding: 1.5rem; border-radius: 1rem; background-color: #f9f9f9;">
+   <%   if(workingUser){%>  <!-- //sirt logged in user hee review likh skta hai -->
+    
+ <h3 style="text-align: center; margin-bottom: 1rem;">Leave a Review!!</h3>
+    <form method="POST" action="/listings/<%= listing._id %>/reviews" novalidate class="needs-validation">
+
+    <!--- Rating Input using bootstrap for naming classes as form-label and form-range -->
+   <!-- Star Rating Section -->
+<div id="starRating" class="flex space-x-2 mb-3" style="margin-left: 38%;">
+  <i class="fa fa-star fa-2x cursor-pointer" data-value="1"></i>
+  <i class="fa fa-star fa-2x cursor-pointer" data-value="2"></i>
+  <i class="fa fa-star fa-2x cursor-pointer" data-value="3"></i>
+  <i class="fa fa-star fa-2x cursor-pointer" data-value="4"></i>
+  <i class="fa fa-star fa-2x cursor-pointer" data-value="5"></i>
+</div>
+<input type="hidden" id="rating" name="rating" />
+
+<style>
+  #starRating i {
+    transition: transform 0.2s ease, color 0.2s ease;
+    color: gainsboro;
+  }
+  #starRating i:hover {
+    transform: scale(1.15);
+  }
+  #starRating i.selected {
+    transform: scale(1.1);
+    color: gold;
+  }
+  #starRating i.hovered {
+    transform: scale(1.15);
+    color: gold;
+  }
+</style>
+
+<script>
+  const stars = document.querySelectorAll("#starRating i");
+  const ratingInput = document.getElementById("rating");
+  let selectedRating = 0;
+
+  stars.forEach((star, index) => {
+    // Hover effect
+    star.addEventListener("mouseover", () => {
+      stars.forEach((s, i) => {
+        s.classList.remove("hovered");
+        if (i <= index) s.classList.add("hovered");
+      });
+    });
+
+    // Remove hover effect when mouse leaves
+    star.addEventListener("mouseout", () => {
+      stars.forEach((s, i) => {
+        s.classList.remove("hovered");
+        if (i < selectedRating) {
+          s.classList.add("selected");
+        } else {
+          s.classList.remove("selected");
+        }
+      });
+    });
+
+    // Click to select rating
+    star.addEventListener("click", () => {
+      selectedRating = index + 1;
+      ratingInput.value = selectedRating;
+
+      stars.forEach((s, i) => {
+        s.classList.remove("selected");
+        if (i < selectedRating) s.classList.add("selected");
+      });
+    });
+  });
+</script>
+
 
         <!-- Comment Input -->
         <div class="form-group mb-3">
@@ -54,26 +181,43 @@
         <div class="form-group" style="text-align: center;">
             <button type="submit" class="btn btn-primary">Submit Review</button>
         </div>
-    </form> <br><br><br>
-    <div><h2>&nbsp;&nbsp;&nbsp;&nbsp; All Reviews!!</h2>
-
+    </form> <br><br><br> <% } %>
     
+    <% if(listing.reviews.length>0){ %>
+     <div> <h2>&nbsp;&nbsp;&nbsp;&nbsp; All Reviews!!</h2>
+  <%}%>
+   <% if(listing.reviews.length===0){ %>
+     <div> <h2>&nbsp;&nbsp;&nbsp;&nbsp; No reviews yet!!</h2>
+  <%}%>
+
+
         <% for(let i=0;i<listing.reviews.length;i++){ %>
-        <div class="card-body" style="display: inline-block;margin: 2rem; border: 1px solid black;border-radius: 2rem;">
+        <div class="card-body" style="display: inline-block;margin: 2rem; border: 1px solid black;border-radius: 2rem;width: 21REM;">
             
-      <div style="display: inline-flex;"> <img src="/pps.jpg" alt="" style="height: 3rem; width: 2.5rem;border-radius: 50%;margin: auto;">
+      <div style="display: inline-flex;"> <img src="https://cdn-icons-png.flaticon.com/512/219/219988.png" alt="" style="height: 2.5rem; width: 2.5rem;border-radius: 50%;margin: auto;">
 
        
-      <div style="margin-left: 0.5rem;margin-top: 0.3rem;"> <b>Pratham</b><br>
-        <p style="display: inline;font-size: smaller;position: relative;bottom: 0.4rem;">Los Angeles,USA</p> <br> 
+      <div style="margin-left: 0.5rem;margin-top: 0.3rem;font-weight: 450;"><b><%=listing.reviews[i].author.username%></b><br>
+        <p style="display: inline;font-size: smaller;position: relative;bottom: 0.4rem;">Delhi,India</p> <br> 
       </div> 
     
     </div>
        
-       <br><br>
-       <% for(let j=0;j<listing.reviews[i].rating;j++){ %>
-        <i class="fa-solid fa-star"></i> 
-          <%   }  %> &nbsp;&nbsp;
+    <!--REVIEW MEI RATING KA STARS DIKHANA-->
+  <br><br>
+<% let rating = listing.reviews[i].rating; %>
+
+<!-- Filled stars -->
+<% for (let j = 0; j < rating; j++) { %>
+  <i class="fa fa-star fa-1x cursor-pointer" style="color: goldenrod; font-size: larger;"></i>
+<% } %>
+
+<!-- Empty stars -->
+<% for (let j = rating; j < 5; j++) { %>
+  <i class="fa-regular fa-star fa-1x cursor-pointer" style="color: gainsboro; font-size: larger;"></i>
+<% } %>
+
+       
 
           <b><%=listing.reviews[i].createdAt.toLocaleString()%></b>
           
@@ -81,21 +225,23 @@
           
           <%=listing.reviews[i].comment%>
        
-
-
+       
 
            <!-- DELETE BUTTON -->
     <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= listing.reviews[i]._id %>?_method=DELETE" onsubmit="return confirm('Are you sure you want to delete this review?')" style="margin-top: 1rem;">
-      <button type="submit" class="btn btn-sm btn-danger">Delete Review</button>
+     
+      <button type="submit" class="btn btn-sm btn-danger" style="border-radius: 1rem;">Delete Review</button>
+      
     </form>
-       </div>
-       
-       <%   }  %>
-
-   </div>
-</div>
-
-
-
+    </div>
+    <% } %>
+     </div>  
+     </div>  
     
+
+  
+
+
+
+
 </body>
